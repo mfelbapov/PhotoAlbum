@@ -23,7 +23,7 @@ namespace PhotoAlbum.Tests.ApiClientTests
                .ReturnsAsync(new HttpResponseMessage()
                {
                    StatusCode = HttpStatusCode.OK,
-                   Content = new StringContent("[{'albumId':1, 'id':1, 'title':'photo title'}]")
+                   Content = new StringContent("[{'albumId':1, 'id':1, 'title':'photo title'}]"),
                })
                .Verifiable();
 
@@ -40,6 +40,35 @@ namespace PhotoAlbum.Tests.ApiClientTests
             
             result.Should().BeEquivalentTo(expectedContent);
         }
-	}
+
+        [Test]
+        public async Task Should_GetEmptyList_When_UnsuccessfullResponse()
+        {
+            var handlerMock = new Mock<HttpMessageHandler>(MockBehavior.Strict);
+            handlerMock
+               .Protected()
+               .Setup<Task<HttpResponseMessage>>(
+                  "SendAsync",
+                  ItExpr.IsAny<HttpRequestMessage>(),
+                  ItExpr.IsAny<CancellationToken>()
+               )
+               .ReturnsAsync(new HttpResponseMessage()
+               {
+                   StatusCode = HttpStatusCode.BadRequest,
+               })
+               .Verifiable();
+
+            var httpClient = new HttpClient(handlerMock.Object)
+            {
+                BaseAddress = new Uri("https://jsonplaceholder.typicode.com/photos?albumId="),
+            };
+
+            var _sut = new AlbumApiClient(httpClient);
+
+            var result = await _sut.GetAlbum(1);
+
+            result.Should().BeEquivalentTo(new List<Photo>());
+        }
+    }
 }
 
