@@ -10,7 +10,7 @@ namespace PhotoAlbum.Tests.ApiClientTests
     public class ApiAlbumClientTests
 	{
 		[Test]
-		public async Task Should_GetResponse_When_CorrectRequest()
+		public async Task Should_GetPhotos_When_SuccessfullResponse()
 		{
             var handlerMock = new Mock<HttpMessageHandler>(MockBehavior.Strict);
             handlerMock
