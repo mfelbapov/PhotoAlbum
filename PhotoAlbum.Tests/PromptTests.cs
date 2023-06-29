@@ -74,6 +74,30 @@ namespace PhotoAlbum.Tests
             _consoleWrapper.Received().WriteLine($"Photo Album {expectedPhotoAlbum} Has No Photos");
         }
 
+        [Test]
+        public async Task Given_ResultContainsData_Then_PrintsData()
+        {
+            var expectedPhotoAlbum = 12;
+
+            var firstPhoto = new Photo(23, 12, "title 1");
+            var secondPhoto = new Photo(24, 12, "title 2");
+
+            var photos = new List<Photo>()
+            {
+                firstPhoto, secondPhoto
+            };
+
+            var resultData = new Album(12, photos);
+
+            _albumService.GetAlbumAsync(expectedPhotoAlbum).Returns(resultData);
+            _consoleWrapper.ReadLine().Returns($"{expectedPhotoAlbum}");
+
+            await _sut.Run();
+
+            _consoleWrapper.Received().WriteLine($"Photo Album {expectedPhotoAlbum} Photos");
+            _consoleWrapper.Received().WriteLine($"[{firstPhoto.Id}] Titile:'{firstPhoto.Title}'");
+            _consoleWrapper.Received().WriteLine($"[{secondPhoto.Id}] Titile:'{secondPhoto.Title}'");
+        }
     }
 }
 

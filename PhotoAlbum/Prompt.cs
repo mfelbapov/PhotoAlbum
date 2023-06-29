@@ -34,8 +34,16 @@ namespace PhotoAlbum
                 _consoleWrapper.Clear();
                 _consoleWrapper.WriteLine($"Photo Album {result.Id} Has No Photos");
             }
+            else
+            {
+                _consoleWrapper.WriteLine($"Photo Album {result.Id} Photos");
+                foreach (var photo in result.Photos)
+                {
+                    _consoleWrapper.WriteLine($"[{photo.Id}] Titile:'{photo.Title}'");
+                }
+            }
 
-            
+
         }
 	}
 }
