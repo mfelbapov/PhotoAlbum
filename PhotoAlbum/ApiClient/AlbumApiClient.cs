@@ -3,7 +3,7 @@ using PhotoAlbum.Models;
 
 namespace PhotoAlbum.ApiClient
 {
-	public class AlbumApiClient
+	public class AlbumApiClient : IAlbumApiClient
 	{
 		private const string BASE_ALBUM_URL = "https://jsonplaceholder.typicode.com/photos?albumId=";
         private readonly HttpClient _client;
