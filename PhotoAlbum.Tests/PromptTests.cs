@@ -40,6 +40,22 @@ namespace PhotoAlbum.Tests
 
             await _albumService.Received().GetAlbumAsync(expectedPhotoAlbum);
         }
+
+        [TestCase("-1")]
+        [TestCase("0")]
+        [TestCase("101")]
+        [TestCase("a")]
+        [TestCase("Z")]
+        [TestCase("!")]
+        public async Task Given_InvalidNumericalInput_When_Run_Then_ClearsAndResetsThePrompt(string input)
+        {
+            await _sut.Run();
+
+            _consoleWrapper.ReadLine().Returns(input);
+
+            _consoleWrapper.Received().Clear();
+            _consoleWrapper.Received().Write("ENTER VALID CHOICE: Number between 1 and 100");
+        }
     }
 }
 

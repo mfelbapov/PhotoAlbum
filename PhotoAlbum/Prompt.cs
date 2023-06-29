@@ -21,6 +21,14 @@ namespace PhotoAlbum
 
             int.TryParse(_consoleWrapper.ReadLine(), out var input);
 
+            if (!Enumerable.Range(1, 100).Contains(input))
+            {
+                _consoleWrapper.Clear();
+                _consoleWrapper.Write("ENTER VALID CHOICE: Number between 1 and 100");
+            }
+
+            
+
             await _albumService.GetAlbumAsync(input);
         }
 	}
