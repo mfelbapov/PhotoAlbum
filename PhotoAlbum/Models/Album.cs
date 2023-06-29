@@ -1,11 +1,5 @@
-﻿using System;
-namespace PhotoAlbum.Models
+﻿namespace PhotoAlbum.Models
 {
-	public class Album
-	{
-		public Album()
-		{
-		}
-	}
+    public record Album(int Id, List<Photo> Photos);
 }
 
