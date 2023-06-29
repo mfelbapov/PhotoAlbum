@@ -27,9 +27,15 @@ namespace PhotoAlbum
                 _consoleWrapper.Write("ENTER VALID CHOICE: Number between 1 and 100");
             }
 
-            
+            var result = await _albumService.GetAlbumAsync(input);
 
-            await _albumService.GetAlbumAsync(input);
+            if (!result.Photos.Any())
+            {
+                _consoleWrapper.Clear();
+                _consoleWrapper.WriteLine($"Photo Album {result.Id} Has No Photos");
+            }
+
+            
         }
 	}
 }

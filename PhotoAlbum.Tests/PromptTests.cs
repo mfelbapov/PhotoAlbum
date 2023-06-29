@@ -1,4 +1,5 @@
 ﻿using NSubstitute;
+using PhotoAlbum.Models;
 using PhotoAlbum.Services;
 
 namespace PhotoAlbum.Tests
@@ -56,6 +57,23 @@ namespace PhotoAlbum.Tests
             _consoleWrapper.Received().Clear();
             _consoleWrapper.Received().Write("ENTER VALID CHOICE: Number between 1 and 100");
         }
+
+        [Test]
+        public async Task Given_ResultDoesNotContainData_Then_PrintsNoPhotosMessage()
+        {
+            var expectedPhotoAlbum = 23;
+            var photos = new List<Photo>();
+
+            var resultData = new Album(23, photos);
+
+            _albumService.GetAlbumAsync(expectedPhotoAlbum).Returns(resultData);
+            _consoleWrapper.ReadLine().Returns($"{expectedPhotoAlbum}");
+
+            await _sut.Run();
+
+            _consoleWrapper.Received().WriteLine($"Photo Album {expectedPhotoAlbum} Has No Photos");
+        }
+
     }
 }
 
