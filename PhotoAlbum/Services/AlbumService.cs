@@ -3,7 +3,7 @@ using PhotoAlbum.Models;
 
 namespace PhotoAlbum.Services
 {
-	public class AlbumService
+	public class AlbumService : IAlbumService
 	{
 		IAlbumApiClient _albumApiClient;
 		public AlbumService(IAlbumApiClient albumApiClient)
