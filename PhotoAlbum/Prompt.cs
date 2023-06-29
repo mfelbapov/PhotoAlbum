@@ -27,23 +27,28 @@ namespace PhotoAlbum
                 _consoleWrapper.Write("ENTER VALID CHOICE: Number between 1 and 100");
             }
 
-            var result = await _albumService.GetAlbumAsync(input);
+            try
+            {
+                var result = await _albumService.GetAlbumAsync(input);
 
-            if (!result.Photos.Any())
-            {
-                _consoleWrapper.Clear();
-                _consoleWrapper.WriteLine($"Photo Album {result.Id} Has No Photos");
-            }
-            else
-            {
-                _consoleWrapper.WriteLine($"Photo Album {result.Id} Photos");
-                foreach (var photo in result.Photos)
+                if (!result.Photos.Any())
                 {
-                    _consoleWrapper.WriteLine($"[{photo.Id}] Titile:'{photo.Title}'");
+                    _consoleWrapper.Clear();
+                    _consoleWrapper.WriteLine($"Photo Album {result.Id} Has No Photos");
+                }
+                else
+                {
+                    _consoleWrapper.WriteLine($"Photo Album {result.Id} Photos");
+                    foreach (var photo in result.Photos)
+                    {
+                        _consoleWrapper.WriteLine($"[{photo.Id}] Titile:'{photo.Title}'");
+                    }
                 }
             }
-
-
+            catch(Exception _)
+            {
+                _consoleWrapper.WriteLine($"Something went wrong try again later");
+            }
         }
 	}
 }

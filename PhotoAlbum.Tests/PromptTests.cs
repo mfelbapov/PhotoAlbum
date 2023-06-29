@@ -98,6 +98,25 @@ namespace PhotoAlbum.Tests
             _consoleWrapper.Received().WriteLine($"[{firstPhoto.Id}] Titile:'{firstPhoto.Title}'");
             _consoleWrapper.Received().WriteLine($"[{secondPhoto.Id}] Titile:'{secondPhoto.Title}'");
         }
+
+        [Test]
+        public async Task Given_CallErrorsOut_Then_PrintsTryAgainLaterMessage()
+        {
+            var expectedPhotoAlbum = 23;
+            var photos = new List<Photo>();
+
+            var resultData = new Album(23, photos);
+
+            _albumService
+                .When(x => x.GetAlbumAsync(expectedPhotoAlbum))
+                .Do(x => throw new Exception());
+
+            _consoleWrapper.ReadLine().Returns($"{expectedPhotoAlbum}");
+
+            await _sut.Run();
+
+            _consoleWrapper.Received().WriteLine($"Something went wrong try again later");
+        }
     }
 }
 
