@@ -22,4 +22,10 @@
   <ItemGroup>
     <ProjectReference Include="..\PhotoAlbum\PhotoAlbum.csproj" />
   </ItemGroup>
+  <ItemGroup>
+    <None Remove="ApiClientTests\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="ApiClientTests\" />
+  </ItemGroup>
 </Project>
