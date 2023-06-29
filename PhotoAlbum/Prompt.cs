@@ -13,11 +13,15 @@ namespace PhotoAlbum
             _consoleWrapper = consoleWrapper;
         }
 
-		public void Run()
+		public async Task Run()
 		{
             _consoleWrapper.WriteLine("Welcome to the PhotoApp");
-            _consoleWrapper.WriteLine("Pick album you want to see (1-100)");
+            _consoleWrapper.WriteLine("Pick an album you want to see (1-100)");
             _consoleWrapper.Write("Please enter a valid choice: ");
+
+            int.TryParse(_consoleWrapper.ReadLine(), out var input);
+
+            await _albumService.GetAlbumAsync(input);
         }
 	}
 }
