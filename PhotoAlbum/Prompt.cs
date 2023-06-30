@@ -21,10 +21,11 @@ namespace PhotoAlbum
 
             int.TryParse(_consoleWrapper.ReadLine(), out var input);
 
-            if (!Enumerable.Range(1, 100).Contains(input))
+            while(!Enumerable.Range(1, 100).Contains(input))
             {
                 _consoleWrapper.Clear();
-                _consoleWrapper.Write("ENTER VALID CHOICE: Number between 1 and 100");
+                _consoleWrapper.Write("ENTER VALID CHOICE: Number between 1 and 100: ");
+                int.TryParse(_consoleWrapper.ReadLine(), out input);
             }
 
             try

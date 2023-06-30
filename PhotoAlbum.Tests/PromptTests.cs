@@ -1,4 +1,5 @@
-﻿using NSubstitute;
+﻿using Moq;
+using NSubstitute;
 using PhotoAlbum.Models;
 using PhotoAlbum.Services;
 
@@ -42,20 +43,26 @@ namespace PhotoAlbum.Tests
             await _albumService.Received().GetAlbumAsync(expectedPhotoAlbum);
         }
 
-        [TestCase("-1")]
-        [TestCase("0")]
-        [TestCase("101")]
-        [TestCase("a")]
-        [TestCase("Z")]
-        [TestCase("!")]
-        public async Task Given_InvalidNumericalInput_When_Run_Then_ClearsAndResetsThePrompt(string input)
+        [Test]
+        public async Task Given_InvalidNumericalInput_Then_ResetsTheQuestionUntilInputCorrect()
         {
-            await _sut.Run();
+            Mock<IConsoleWrapper> consoleWrapperMock = new Mock<IConsoleWrapper>();
+            Mock<IAlbumService> albumServiceMock = new Mock<IAlbumService>();
 
-            _consoleWrapper.ReadLine().Returns(input);
+            var sut = new Prompt(albumServiceMock.Object, consoleWrapperMock.Object);
+            consoleWrapperMock
+                .SetupSequence(x => x.ReadLine())
+                .Returns("-1")
+                .Returns("0")
+                .Returns("101")
+                .Returns("1");
 
-            _consoleWrapper.Received().Clear();
-            _consoleWrapper.Received().Write("ENTER VALID CHOICE: Number between 1 and 100");
+            await sut.Run();
+
+            consoleWrapperMock
+                .Verify(x => x.Clear(), Times.Exactly(3));
+            consoleWrapperMock
+                .Verify(x => x.Write("ENTER VALID CHOICE: Number between 1 and 100: "), Times.Exactly(3));
         }
 
         [Test]
