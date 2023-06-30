@@ -1,5 +1,5 @@
 ﻿namespace PhotoAlbum.Models
 {
-    public record Photo(int id, int AlbumId, string Title);
+    public record Photo(int Id, int AlbumId, string Title);
 }
 
